@@ -19,7 +19,7 @@ if (isset($_POST['login'])) {
             $_SESSION['user_email'] = $user_email;
             $_SESSION['user_password'] = $user_password;
             $_SESSION['logged_in'] = true;
-            header("location:account.php?status=You login successfully");
+            header("location:index.php?status=You login successfully");
         } else {
             header("location:login.php?error=Invalid email or password");
         }
@@ -27,7 +27,6 @@ if (isset($_POST['login'])) {
 }
 
 ?>
-
 
 <?php include('layouts/header.php') ?>
 
@@ -64,7 +63,7 @@ if (isset($_POST['login'])) {
                 <input type="password" placeholder="Password" id="password" name="password" class="form-control">
             </div>
             <div class="form-group">
-                <input type="submit" value="Login" name="login" class="btn" id="login">
+                <input type="submit" value="Login" name="login" class="btn-dark" id="login">
             </div>
             <div class="form-group">
                 <a id="register-url" class="btn-text" href="register.php">Don't have account? Register</a>

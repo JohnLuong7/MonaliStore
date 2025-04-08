@@ -56,6 +56,8 @@ if (isset($_POST['order_details']) && isset($_POST['order_id'])) {
     echo "No order ID provided.";
     exit;
 }
+
+
 ?>
 
 <?php include('../admin/layouts/app.php') ?>
@@ -97,7 +99,7 @@ if (isset($_POST['order_details']) && isset($_POST['order_id'])) {
                                         <div class="col-sm-4 invoice-col">
                                             <br>
                                             <b>Order ID:</b> <?php echo htmlspecialchars($order['order_id']); ?><br>
-                                            <b>Total:</b> <?php echo number_format($order['order_cost'], 2); ?> VND<br>
+                                            <b>Total:</b> <?php echo number_format($order['order_cost'], 3); ?> VND<br>
                                             <b>Status:</b>
                                             <?php
                                             // Thay đổi màu nền theo trạng thái
@@ -107,7 +109,11 @@ if (isset($_POST['order_details']) && isset($_POST['order_id'])) {
                                                 $statusClass = 'bg-warning'; // Màu cam cho "shipped"
                                             } elseif ($order['order_status'] === 'delivered') {
                                                 $statusClass = 'bg-success'; // Màu xanh cho "delivered"
+                                            }elseif ($order['order_status'] === 'cancelled') {
+                                                $statusClass = 'bg-primary'; // Màu xanh dương cho "cancelled"
                                             }
+
+
                                             ?>
                                             <span class="badge <?php echo $statusClass; ?> p-2 text-uppercase">
                                                 <?php echo htmlspecialchars($order['order_status']); ?>
@@ -124,8 +130,9 @@ if (isset($_POST['order_details']) && isset($_POST['order_id'])) {
                                 <thead>
                                     <tr>
                                         <th>Product</th>
-                                        <th width="100">Price</th>
                                         <th width="100">Qty</th>
+                                        <th width="100">Size</th>
+                                        <th width="100">Price</th> 
                                         <th width="100">Total</th>
                                     </tr>
                                 </thead>
@@ -134,30 +141,57 @@ if (isset($_POST['order_details']) && isset($_POST['order_id'])) {
                                     if ($order_details && $order_details->num_rows > 0) {
                                         $subtotal = 0;
                                         while ($row = $order_details->fetch_assoc()) {
-                                            $total = $row['product_price'] * 1; // Giả định số lượng là 1
+                                            $total = $row['product_price'] * $row['product_quantity']; // Giả định số lượng là 1
                                             $subtotal += $total;
+                                            $query = "SELECT product_name, product_quantity, product_size, product_price FROM order_items WHERE order_id = ?";
                                             echo "<tr>
                                                     <td>" . htmlspecialchars($row['product_name']) . "</td>
-                                                    <td>" . number_format($row['product_price'], 3) . " VND</td>
-                                                    <td>1</td>
-                                                    <td>" . number_format($total, 3) . " VND</td>
+                                                    <td>" . htmlspecialchars($row['product_quantity']) . "</td>
+                                                    <td>";
+
+                                                    // Check product_size and display corresponding size
+                                                     switch ($row['product_size']) {
+                                                            case 1:
+                                                                echo 'S'; // product_size = 1 => S
+                                                                break;
+                                                            case 2:
+                                                                echo 'M'; // product_size = 2 => M
+                                                                break;
+                                                            case 3:
+                                                                echo 'L'; // product_size = 3 => L
+                                                                break;
+                                                            case 4:
+                                                                echo 'XL'; // product_size = 4 => XL
+                                                                break;
+                                                            default:
+                                                                echo 'Pre Size'; // Default, if other value is set
+                                                                break;
+                                                        }     
+                                            echo "</td>
+                                                <td>" . number_format($row['product_price'], 3) . " VND</td>
+                                                <td>" . number_format($total, 3) . " VND</td>
+                                            
                                                 </tr>";
                                         }
                                     } else {
                                         echo "<tr><td colspan='4'>No products found.</td></tr>";
                                     }
                                     ?>
+
+
+                       
+                     
                                     <tr>
-                                        <th colspan="3" class="text-right p-3">Subtotal:</th>
+                                        <th colspan="4" class="text-right p-3">Subtotal:</th>
                                         <td><?php echo number_format($subtotal, 3); ?> VND</td>
                                     </tr>
                                     <tr>
-                                        <th colspan="3" class="text-right">Shipping:</th>
-                                        <td>30.000 VND</td>
+                                        <th colspan="4" class="text-right">Shipping:</th>
+                                        <td>0.000 VND</td>
                                     </tr>
                                     <tr>
-                                        <th colspan="3" class="text-right">Grand Total:</th>
-                                        <td><?php echo number_format($subtotal + 30000, 3); ?> VND</td>
+                                        <th colspan="4" class="text-right">Grand Total:</th>
+                                        <td><?php echo number_format($subtotal , 3); ?> VND</td>
                                     </tr>
                                 </tbody>
                             </table>

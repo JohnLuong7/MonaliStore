@@ -3,14 +3,19 @@
 include('../server/connection.php');
 
 $stmt = $conn->prepare('SELECT *FROM category');
+
 $stmt->execute();
 $categorys = $stmt->get_result();
+
+
 
 ?>
 
 
-
 <?php include('../admin/layouts/app.php') ?>
+
+
+
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -34,16 +39,10 @@ $categorys = $stmt->get_result();
             <div class="card">
                 <div class="card-header">
                     <div class="card-tools">
-                        <div class="input-group input-group" style="width: 250px;">
-                            <input type="text" name="table_search" class="form-control float-right"
-                                placeholder="Search">
-
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
+                    <form class="d-flex" action="../admin/search_category.php" method="GET">
+                        <input class="form-control me-2" type="search" name="query_admin" placeholder="Search Products" aria-label="Search" required>
+                        <button class="btn btn-outline-dark" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
                     </div>
                 </div>
                 <div class="card-body table-responsive p-0">
@@ -95,7 +94,7 @@ $categorys = $stmt->get_result();
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer clearfix">
+                <!-- <div class="card-footer clearfix">
                     <ul class="pagination pagination m-0 float-right">
                         <li class="page-item"><a class="page-link" href="#">«</a></li>
                         <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -103,7 +102,7 @@ $categorys = $stmt->get_result();
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                         <li class="page-item"><a class="page-link" href="#">»</a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div>
         <!-- /.card -->

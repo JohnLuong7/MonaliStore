@@ -1,8 +1,23 @@
 <?php
+
+session_start();
+
+// Kiểm tra đăng nhập
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
+
+
+
+
+
+
 include('../admin/layouts/app.php');
 
 // Kết nối cơ sở dữ liệu với mysqli
-$conn = mysqli_connect('localhost', 'root', '1234', 'php_project');
+$conn = mysqli_connect('localhost', 'root', '', 'php_project');
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -78,7 +93,7 @@ mysqli_close($conn); // Đóng kết nối sau khi truy vấn xong
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="#" class="small-box-footer text-dark">More info <i
+                        <a href="list_orders.php" class="small-box-footer text-dark">More info <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -92,7 +107,7 @@ mysqli_close($conn); // Đóng kết nối sau khi truy vấn xong
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer text-dark">More info <i
+                        <a href="list_users.php" class="small-box-footer text-dark">More info <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>

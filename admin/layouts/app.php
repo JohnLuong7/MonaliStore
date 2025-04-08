@@ -1,10 +1,15 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel Shop :: Administrative Panel</title>
+    <title>Monali Admin</title>
+    <link href='../assets/images/logo1.png' rel='icon' type='image/x-icon' />
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -13,6 +18,8 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="css/adminlte.min.css">
     <link rel="stylesheet" href="css/custom.css">
+ 
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -43,18 +50,30 @@
                         <img src="img/avatar5.png" class='img-circle elevation-2' width="40" height="40" alt="">
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3">
-                        <h4 class="h4 mb-0"><strong>Mohit Singh</strong></h4>
-                        <div class="mb-3">example@example.com</div>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                        <!-- <h4 class="h4 mb-0"><strong>Mohit Singh</strong></h4>
+                        <div class="mb-3">example@example.com</div> -->
+                        <p><strong>Tên:</strong> <span>
+    <?php echo !empty($_SESSION['admin_name']) ? htmlspecialchars($_SESSION['admin_name']) : 'Không có dữ liệu'; ?>
+</span></p>
+<p><strong>Email:</strong> <span>
+    <?php echo !empty($_SESSION['admin_email']) ? htmlspecialchars($_SESSION['admin_email']) : 'Không có dữ liệu'; ?>
+</span></p>
+
+
+                        <!-- <div class="dropdown-divider"></div>
+                        <a href="setting.php" class="dropdown-item">
                             <i class="fas fa-user-cog mr-2"></i> Settings
-                        </a>
+                        </a> -->
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                        <a href="change_password.php" class="dropdown-item">
                             <i class="fas fa-lock mr-2"></i> Change Password
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="login.php" class="dropdown-item text-danger">
+                        <a href="register_admin.php" class="dropdown-item">
+                            <i class="fas fa-user-plus"></i> Register
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="logout.php" class="dropdown-item text-danger">
                             <i class="fas fa-sign-out-alt mr-2"></i> Logout
                         </a>
                     </div>
